@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service // ≈ Component
 public class PersonService {
 
     private final PersonRepository personRepository;
@@ -25,7 +25,7 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Person saveUser(Person person) {
+    public Person savePerson(Person person) {
         return personRepository.save(person);
     }
 
