@@ -12,6 +12,13 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "description")
     private String description;
+
+    public Role() {
+    }
+
+    public Role(long id, String description) {
+        this.id = id;
+        this.description = description;
+    }
 }

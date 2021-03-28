@@ -1,16 +1,11 @@
 package bookShop.BookShop.controller;
 
 import bookShop.BookShop.model.Person;
-import bookShop.BookShop.model.Role;
-import bookShop.BookShop.service.PersonService;
-import bookShop.BookShop.service.RoleService;
+import bookShop.BookShop.service.Interfaces.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -52,7 +47,7 @@ public class PersonController {
     private final PersonService personService;
 
     @Autowired
-    public PersonController(PersonService personService, RoleService roleService) {
+    public PersonController(PersonService personService) {
         this.personService = personService;
     }
 
@@ -79,7 +74,7 @@ public class PersonController {
              return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
          }
 
-         personService.savePerson(person);
+        personService.savePerson(person);
          return new ResponseEntity<>(person, headers, HttpStatus.CREATED);
      }
 
