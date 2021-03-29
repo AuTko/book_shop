@@ -6,19 +6,23 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "statuses")
+public class Status {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String group;
+
     private String description;
 
-    public Role() {
+    public Status() {
     }
 
-    public Role(Long id, String description) {
+    public Status(Long id, String group, String description) {
         this.id = id;
+        this.group = group;
         this.description = description;
     }
 }

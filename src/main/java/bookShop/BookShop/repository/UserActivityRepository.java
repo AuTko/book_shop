@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface UserActivityRepository extends JpaRepository<UserActivity, Long> {
     List<UserActivity> getAllByAdmin_Id(Long id);
+
     List<UserActivity> getAllByUser_Id(Long id);
 }
