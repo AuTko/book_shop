@@ -1,0 +1,7 @@
+package bookShop.BookShop.repository;
+
+import bookShop.BookShop.model.Review;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ReviewRepository extends JpaRepository<Review, Long> {
+}

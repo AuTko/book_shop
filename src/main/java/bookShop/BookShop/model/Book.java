@@ -23,12 +23,12 @@ public class Book {
     @Column(name = "publication_date")
     private Date publicationDate;
 
-    private int pages;
+    private Integer pages;
 
     public Book() {
     }
 
-    public Book(Long id, String bookName, String author, String genre, Date publicationDate, int pages) {
+    public Book(Long id, String bookName, String author, String genre, Date publicationDate, Integer pages) {
         this.id = id;
         this.bookName = bookName;
         this.author = author;

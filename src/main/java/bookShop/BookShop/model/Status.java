@@ -14,6 +14,9 @@ public class Status {
     private Long id;
 
     private String group;
+    // group 1 - shop statuses
+    // group 2 - stock statuses
+    // group 3 - order service
 
     private String description;
 
