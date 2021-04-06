@@ -1,8 +1,6 @@
 package bookShop.BookShop.service.Implementations;
 
-import bookShop.BookShop.model.Person;
 import bookShop.BookShop.model.UserActivity;
-import bookShop.BookShop.repository.PersonRepository;
 import bookShop.BookShop.repository.UserActivityRepository;
 import bookShop.BookShop.service.Interfaces.UserActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +32,12 @@ public class UserActivityServiceImpl implements UserActivityService {
 
     @Override
     public List<UserActivity> getAllByUserId(Long id) {
-        return userActivityRepository.getAllByUser_Id(id);
+        return userActivityRepository.getAllByUserId(id);
     }
 
     @Override
     public List<UserActivity> getAllByAdminId(Long id) {
-        return userActivityRepository.getAllByAdmin_Id(id);
+        return userActivityRepository.getAllByAdminId(id);
     }
 
     @Override

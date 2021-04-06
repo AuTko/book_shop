@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BookService {
 
-    public Book findById(Long id);
+    public Book findBookById(Long id) throws Throwable;
 
     public List<Book> findAll();
 

@@ -1,6 +1,7 @@
 package bookShop.BookShop.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
@@ -15,7 +16,7 @@ public class Person {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "role_id") //column name != field name
+    @JoinColumn(name = "role_id", nullable = false) //column name != field name
     private Role role;
 
     @Column(name = "first_name")
@@ -31,8 +32,7 @@ public class Person {
     public Person() {
     }
 
-    public Person(Long id, Role role, String firstName, String lastName, String email, String password) {
-        this.id = id;
+    public Person(Role role, String firstName, String lastName, String email, String password) {
         this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;

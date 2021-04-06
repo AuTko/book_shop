@@ -1,6 +1,7 @@
 package bookShop.BookShop.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -28,8 +29,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(Long id, String bookName, String author, String genre, Date publicationDate, Integer pages) {
-        this.id = id;
+    public Book(String bookName, String author, String genre, Date publicationDate, Integer pages) {
         this.bookName = bookName;
         this.author = author;
         this.genre = genre;

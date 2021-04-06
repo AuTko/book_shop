@@ -1,6 +1,7 @@
 package bookShop.BookShop.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 import javax.persistence.*;
@@ -16,15 +17,15 @@ public class Stock {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "shop_id")
+    @JoinColumn(name = "shop_id", nullable = false)
     private Shop shop;
 
     @ManyToOne
-    @Column(name = "book_id")
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
     @ManyToOne
-    @Column(name = "status_id")
+    @JoinColumn(name = "status_id", nullable = false)
     private Status status;
 
     private Integer amount;
@@ -38,8 +39,7 @@ public class Stock {
     public Stock() {
     }
 
-    public Stock(Long id, Shop shop, Book book, Status status, Integer amount, Float bookPrice, Date creationDate) {
-        this.id = id;
+    public Stock(Shop shop, Book book, Status status, Integer amount, Float bookPrice, Date creationDate) {
         this.shop = shop;
         this.book = book;
         this.status = status;

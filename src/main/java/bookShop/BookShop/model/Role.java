@@ -1,6 +1,7 @@
 package bookShop.BookShop.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
@@ -17,8 +18,7 @@ public class Role {
     public Role() {
     }
 
-    public Role(Long id, String description) {
-        this.id = id;
+    public Role(String description) {
         this.description = description;
     }
 }

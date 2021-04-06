@@ -23,12 +23,12 @@ public class BookController {
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<Book> getBook(@PathVariable("id") Long id) {
+    public ResponseEntity<Book> getBook(@PathVariable("id") Long id) throws Throwable {
         if(id == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Book book = bookService.findById(id);
+        Book book = bookService.findBookById(id);
 
         if(book == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -62,8 +62,8 @@ public class BookController {
     }
 
     @DeleteMapping(value = "{id}")
-    public ResponseEntity<Book> deleteBook(@PathVariable("id") Long id) {
-        Book book = bookService.findById(id);
+    public ResponseEntity<Book> deleteBook(@PathVariable("id") Long id) throws Throwable {
+        Book book = bookService.findBookById(id);
 
         if(book == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -1,6 +1,7 @@
 package bookShop.BookShop.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
@@ -23,8 +24,7 @@ public class Status {
     public Status() {
     }
 
-    public Status(Long id, String group, String description) {
-        this.id = id;
+    public Status(String group, String description) {
         this.group = group;
         this.description = description;
     }

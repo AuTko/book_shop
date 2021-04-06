@@ -1,5 +1,6 @@
 package bookShop.BookShop.service.Implementations;
 
+import bookShop.BookShop.exception.NotFoundDataForIdException;
 import bookShop.BookShop.model.Book;
 import bookShop.BookShop.repository.BookRepository;
 import bookShop.BookShop.service.Interfaces.BookService;
@@ -19,8 +20,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book findById(Long id) {
-        return bookRepository.findById(id).get();
+    public Book findBookById(Long id) throws Throwable {
+        return bookRepository.findBookById(id).orElseThrow(() ->
+                new NotFoundDataForIdException("Book by id " + id + " was not found to show"));
     }
 
     @Override

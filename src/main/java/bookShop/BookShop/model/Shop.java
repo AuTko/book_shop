@@ -1,6 +1,7 @@
 package bookShop.BookShop.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
@@ -28,19 +29,18 @@ public class Shop {
     private String creationDate;
 
     @ManyToOne
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "status_id", nullable = false)
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id", nullable = false)
     private Person owner;
 
     public Shop() {
     }
 
-    public Shop(Long id, String shopName, String country, String city, String address,
+    public Shop(String shopName, String country, String city, String address,
                 String description, String creationDate, Status status, Person owner) {
-        this.id = id;
         this.shopName = shopName;
         this.country = country;
         this.city = city;
