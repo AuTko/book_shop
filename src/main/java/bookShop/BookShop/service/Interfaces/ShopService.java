@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface ShopService {
 
-    public Shop findById(Long id);
+     Shop findById(Long id);
 
-    public List<Shop> findAll();
+     List<Shop> findAll();
 
-    public Shop saveShop(Shop shop);
+     Shop saveShop(Shop shop);
 
-    public void deleteById(Long id);
+     void deleteById(Long id);
 }

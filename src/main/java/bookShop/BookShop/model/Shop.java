@@ -39,8 +39,8 @@ public class Shop {
     public Shop() {
     }
 
-    public Shop(String shopName, String country, String city, String address,
-                String description, String creationDate, Status status, Person owner) {
+    public Shop(String shopName, String country, String city, String address, String description, String creationDate,
+                Status status, Person owner) {
         this.shopName = shopName;
         this.country = country;
         this.city = city;

@@ -17,7 +17,8 @@ public class Status {
     private String group;
     // group 1 - shop statuses
     // group 2 - stock statuses
-    // group 3 - order service
+    // group 3 - order statuses
+    // group 4 - user activity statuses
 
     private String description;
 

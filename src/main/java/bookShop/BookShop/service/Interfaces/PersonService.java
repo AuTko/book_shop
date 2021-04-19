@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface PersonService {
 
-    public Person findById(Long id);
+     Person findById(Long id);
 
-    public List<Person> findAll();
+     List<Person> findAll();
 
-    public Person savePerson(Person person);
+     Person savePerson(Person person);
 
-    public void deleteById(Long id);
+     void deleteById(Long id);
 }

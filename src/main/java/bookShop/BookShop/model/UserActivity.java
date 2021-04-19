@@ -23,7 +23,9 @@ public class UserActivity {
     @JoinColumn(name = "admin_id", nullable = false)
     private Person admin;
 
-    private String activity;
+    @ManyToOne
+    @JoinColumn(name = "activity_id", nullable = false)
+    private Status activity;
 
     private Date date;
 
@@ -32,7 +34,7 @@ public class UserActivity {
     public UserActivity() {
     }
 
-    public UserActivity(Person user, Person admin, String activity, Date date, String description) {
+    public UserActivity(Person user, Person admin, Status activity, Date date, String description) {
         this.user = user;
         this.admin = admin;
         this.activity = activity;

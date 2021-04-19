@@ -4,13 +4,13 @@ import bookShop.BookShop.model.Stock;
 
 import java.util.List;
 
-public interface StockService {
+ public interface StockService {
 
-    public Stock findById(Long id);
+     Stock findById(Long id);
 
-    public List<Stock> findAll();
+     List<Stock> findAll();
 
-    public Stock saveStock(Stock stock);
+     Stock saveStock(Stock stock);
 
-    public void deleteById(Long id);
+     void deleteById(Long id);
 }

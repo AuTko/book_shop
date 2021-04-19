@@ -21,7 +21,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book findBookById(Long id) throws Throwable {
-        return bookRepository.findBookById(id).orElseThrow(() ->
+        return bookRepository.findById(id).orElseThrow(() ->
                 new NotFoundDataForIdException("Book by id " + id + " was not found to show"));
     }
 
@@ -36,7 +36,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Long id) throws Throwable {
         bookRepository.deleteById(id);
     }
 }

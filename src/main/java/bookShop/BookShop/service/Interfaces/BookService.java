@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface BookService {
 
-    public Book findBookById(Long id) throws Throwable;
+     Book findBookById(Long id) throws Throwable;
 
-    public List<Book> findAll();
+     List<Book> findAll();
 
-    public Book saveBook(Book book);
+     Book saveBook(Book book);
 
-    public void deleteById(Long id);
+     void deleteById(Long id) throws Throwable;
 }

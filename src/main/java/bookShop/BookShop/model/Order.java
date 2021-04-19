@@ -16,10 +16,6 @@ public class Order {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "buyer_id", nullable = false)
-    private Person person;
-
-    @ManyToOne
     @JoinColumn(name = "shop_id", nullable = false)
     private Shop shop;
 
@@ -28,39 +24,22 @@ public class Order {
     private Book book;
 
     @ManyToOne
-    @JoinColumn(name = "status_id", nullable = false)
-    private Status status;
+    @JoinColumn(name = "basket_id", nullable = false)
+    private OrderBasket basket;
 
     private Integer amount;
 
     @Column(name = "total_cost")
     private Float totalCost;
 
-    @Column(name = "delivery_address")
-    private String deliveryAddress;
-
-    private String description;
-
-    @Column(name = "submit_date")
-    private Date submitDate;
-
-    @Column(name = "complete_date")
-    private Date completeDate;
-
     public Order() {
     }
 
-    public Order(Person person, Shop shop, Book book, Status status, Integer amount,
-                 Float totalCost, String deliveryAddress, String description, Date submitDate, Date completeDate) {
-        this.person = person;
+    public Order(Shop shop, Book book, OrderBasket basket, Integer amount, Float totalCost) {
         this.shop = shop;
         this.book = book;
-        this.status = status;
+        this.basket = basket;
         this.amount = amount;
         this.totalCost = totalCost;
-        this.deliveryAddress = deliveryAddress;
-        this.description = description;
-        this.submitDate = submitDate;
-        this.completeDate = completeDate;
     }
 }

@@ -5,17 +5,17 @@ import bookShop.BookShop.model.UserActivity;
 
 import java.util.List;
 
-public interface UserActivityService {
+ public interface UserActivityService {
 
-    public UserActivity findById(Long id);
+    UserActivity findById(Long id);
 
-    public List<UserActivity> findAll();
+     List<UserActivity> findAll();
 
-    public List<UserActivity> getAllByUserId(Long id);
+     List<UserActivity> getAllByUserId(Long id);
 
-    public List<UserActivity> getAllByAdminId(Long id);
+     List<UserActivity> getAllByAdminId(Long id);
 
-    public UserActivity addActivity(UserActivity userActivity);
+     UserActivity addActivity(UserActivity userActivity);
 
-    public void deleteById(Long id);
+     void deleteById(Long id);
 }
