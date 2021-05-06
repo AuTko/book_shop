@@ -10,5 +10,6 @@ import java.util.List;
  * needed for requests generating
  */
 public interface PersonRepository extends JpaRepository<Person, Long> {
-  //  List<Person> findByLastName(String lastName);
+    Person findByEmail(String Email);
+
 }
