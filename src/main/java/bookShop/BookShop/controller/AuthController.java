@@ -2,6 +2,8 @@ package bookShop.BookShop.controller;
 
 import bookShop.BookShop.model.Person;
 import bookShop.BookShop.model.Role;
+import bookShop.BookShop.security.AuthRequest;
+import bookShop.BookShop.security.AuthResponse;
 import bookShop.BookShop.security.JwtProvider;
 import bookShop.BookShop.service.Interfaces.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,14 @@ public class AuthController {
 
     @PostMapping("/register")
     public String registerUser(@RequestBody @Validated Person person) {
-        HttpHeaders headers = new HttpHeaders();
         personService.savePerson(person);
-        return new ResponseEntity<>(person,headers, HttpStatus.OK);
+        return "OK";
+    }
+
+    @PostMapping("/auth")
+    public AuthResponse auth(@RequestBody AuthRequest request) {
+        Person personEntity = personService.findByLoginAndPassword(request.getLogin(), request.getPassword());
+        String token = jwtProvider.generateToken(personEntity.getEmail());
+        return new AuthResponse(token);
     }
 }
