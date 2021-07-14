@@ -15,8 +15,4 @@ public interface PersonService {
      Person savePerson(Person person);
 
      void deleteById(Long id);
-
-     Person findByLogin(String login);
-
-     Person findByLoginAndPassword(String login, String password);
 }

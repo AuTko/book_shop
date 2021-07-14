@@ -1,5 +1,6 @@
 package bookShop.BookShop.controller;
 
+import bookShop.BookShop.DTO.BookDTO;
 import bookShop.BookShop.model.Book;
 import bookShop.BookShop.service.Interfaces.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/ver1/books/")
@@ -75,10 +79,13 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Book>> getAllBooks() {
-        List<Book> books = bookService.findAll();
+    public ResponseEntity<BookDTO[]> getAllBooks() {
+        //Book[] books = bookService.findAll().toArray(new Book[0]);
+        BookDTO[] books = bookService.findAll().stream().map(BookDTO::new).
+                toArray(BookDTO[]::new);
+        //List<Wrapper> converted = original.stream().map(Wrapper::new).collect(Collectors.toList());
 
-        if(books.isEmpty()) {
+        if(books.length == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
