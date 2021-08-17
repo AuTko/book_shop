@@ -1,9 +1,11 @@
 package bookShop.BookShop.model;
 
+import bookShop.BookShop.DTO.UserActivityDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -40,5 +42,15 @@ public class UserActivity {
         this.activity = activity;
         this.date = date;
         this.description = description;
+    }
+
+    public UserActivity(UserActivityDTO userActivityDTO) {
+        this.id = userActivityDTO.getId();
+        try {
+            this.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(userActivityDTO.getDate());
+        } catch (java.text.ParseException e) {
+            e.getMessage();
+        }
+        this.description = userActivityDTO.getDescription();
     }
 }

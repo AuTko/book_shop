@@ -1,16 +1,17 @@
 package bookShop.BookShop.controller;
 
+import bookShop.BookShop.DTO.StockDTO;
+import bookShop.BookShop.DTO.UserActivityDTO;
 import bookShop.BookShop.model.Person;
-import bookShop.BookShop.model.UserActivity;
 import bookShop.BookShop.service.Interfaces.PersonService;
 import bookShop.BookShop.service.Interfaces.UserActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -25,46 +26,108 @@ public class UserActivityController {
         this.userActivityService = userActivityService;
     }
 
+    @GetMapping(value = "{id}")
+    public ResponseEntity<UserActivityDTO> getUserActivity(@PathVariable("id") Long id) {
+        if (id == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        UserActivityDTO userActivityDTO = new UserActivityDTO(userActivityService.findById(id));
+
+        if (userActivityDTO == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(userActivityDTO, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<UserActivityDTO> saveUserActivity(@RequestBody @Validated UserActivityDTO userActivityDTO) {
+        HttpHeaders headers = new HttpHeaders();
+
+        if (userActivityDTO == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        userActivityService.addActivity(userActivityDTO);
+
+        return new ResponseEntity<>(userActivityDTO, headers, HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<UserActivityDTO> updateStock(@RequestBody @Validated UserActivityDTO userActivityDTO,
+                                                       UriComponentsBuilder builder) {
+        HttpHeaders headers = new HttpHeaders();
+
+        if (userActivityDTO == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        userActivityService.addActivity(userActivityDTO);
+
+        return new ResponseEntity<>(userActivityDTO, headers, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<UserActivityDTO> deleteStock(@PathVariable("id") Long id) {
+
+        UserActivityDTO userActivityDTO = new UserActivityDTO(userActivityService.findById(id));
+
+        if (userActivityDTO == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        userActivityService.deleteById(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+    }
+
     @GetMapping
-    public ResponseEntity<List<UserActivity>> getAllActivity() {
+    public ResponseEntity<UserActivityDTO[]> getAllActivities() {
 
-        List<UserActivity> allActivity = userActivityService.findAll();
+        UserActivityDTO[] userActivityDTOS = userActivityService.findAll().stream().map(UserActivityDTO::new).
+                toArray(UserActivityDTO[]::new);
 
-        if(allActivity.isEmpty()) {
+        if (userActivityDTOS.length == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(allActivity, HttpStatus.OK);
+        return new ResponseEntity<>(userActivityDTOS, HttpStatus.OK);
     }
 
 
-    @GetMapping(value = "admin/{id}")
-    public ResponseEntity<List<UserActivity>> getAdminActivity(@PathVariable("id") Long id) {
-        if(id == null) {
+    @GetMapping(value = "admin/{email}")
+    public ResponseEntity<UserActivityDTO[]> getAdminActivities(@PathVariable("email") String email) {
+
+        if (email == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        List<UserActivity> adminActivity = userActivityService.getAllByAdminId(id);
+        UserActivityDTO[] userActivityDTOS = userActivityService.getAllByAdmin(email).stream().
+                map(UserActivityDTO::new).toArray(UserActivityDTO[]::new);
 
-        if(adminActivity.isEmpty()) {
+        if (userActivityDTOS.length == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(adminActivity, HttpStatus.OK);
+        return new ResponseEntity<>(userActivityDTOS, HttpStatus.OK);
     }
 
-    @GetMapping(value = "user/{id}")
-    public ResponseEntity<List<UserActivity>> getUserActivity(@PathVariable("id") Long id) {
-        if(id == null) {
+    @GetMapping(value = "user/{email}")
+    public ResponseEntity<UserActivityDTO[]> getUserActivities(@PathVariable("email") String email) {
+
+        if (email == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        List<UserActivity> userActivity = userActivityService.getAllByUserId(id);
+        UserActivityDTO[] userActivityDTOS = userActivityService.getAllByUser(email).stream().
+                map(UserActivityDTO::new).toArray(UserActivityDTO[]::new);
 
-        if(userActivity.isEmpty()) {
+        if (userActivityDTOS.length == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(userActivity, HttpStatus.OK);
+        return new ResponseEntity<>(userActivityDTOS, HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package bookShop.BookShop.model;
 
+import bookShop.BookShop.DTO.OrderDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -41,5 +42,11 @@ public class Order {
         this.basket = basket;
         this.amount = amount;
         this.totalCost = totalCost;
+    }
+
+    public Order(OrderDTO orderDTO) {
+        this.id = orderDTO.getId();
+        this.amount = orderDTO.getAmount();
+        this.totalCost = orderDTO.getTotalCost();
     }
 }

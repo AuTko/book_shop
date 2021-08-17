@@ -1,16 +1,20 @@
 package bookShop.BookShop.service.Interfaces;
 
+import bookShop.BookShop.DTO.StockDTO;
 import bookShop.BookShop.model.Stock;
 
 import java.util.List;
 
- public interface StockService {
+public interface StockService {
 
-     Stock findById(Long id);
+    Stock findById(Long id);
 
-     List<Stock> findAll();
+    List<Stock> findAll();
 
-     Stock saveStock(Stock stock);
+    List<Stock> findByShop(String shopName);
 
-     void deleteById(Long id);
+    Stock saveStock(StockDTO stockDTO);
+
+
+    void deleteById(Long id);
 }

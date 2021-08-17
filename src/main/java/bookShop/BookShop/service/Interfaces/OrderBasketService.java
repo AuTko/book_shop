@@ -1,5 +1,6 @@
 package bookShop.BookShop.service.Interfaces;
 
+import bookShop.BookShop.DTO.OrderBasketDTO;
 import bookShop.BookShop.model.Order;
 import bookShop.BookShop.model.OrderBasket;
 
@@ -11,7 +12,7 @@ public interface OrderBasketService {
 
     List<OrderBasket> findAll();
 
-    OrderBasket saveBasket(OrderBasket orderBasket);
+    OrderBasket saveBasket(OrderBasketDTO orderBasketDTO);
 
     void deleteById(Long id);
 }

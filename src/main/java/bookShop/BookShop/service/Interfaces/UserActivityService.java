@@ -1,21 +1,22 @@
 package bookShop.BookShop.service.Interfaces;
 
+import bookShop.BookShop.DTO.UserActivityDTO;
 import bookShop.BookShop.model.Role;
 import bookShop.BookShop.model.UserActivity;
 
 import java.util.List;
 
- public interface UserActivityService {
+public interface UserActivityService {
 
     UserActivity findById(Long id);
 
-     List<UserActivity> findAll();
+    List<UserActivity> findAll();
 
-     List<UserActivity> getAllByUserId(Long id);
+    List<UserActivity> getAllByUser(String email);
 
-     List<UserActivity> getAllByAdminId(Long id);
+    List<UserActivity> getAllByAdmin(String email);
 
-     UserActivity addActivity(UserActivity userActivity);
+    UserActivity addActivity(UserActivityDTO userActivityDTO);
 
-     void deleteById(Long id);
+    void deleteById(Long id);
 }

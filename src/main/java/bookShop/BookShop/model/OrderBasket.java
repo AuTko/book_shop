@@ -1,5 +1,6 @@
 package bookShop.BookShop.model;
 
+import bookShop.BookShop.DTO.OrderBasketDTO;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -55,5 +57,19 @@ public class OrderBasket {
         this.description = description;
         this.submitDate = submitDate;
         this.completeDate = completeDate;
+    }
+
+    public OrderBasket(OrderBasketDTO orderBasketDTO) {
+
+        this.id = orderBasketDTO.getId();
+        this.totalCost = orderBasketDTO.getTotalCost();
+        this.deliveryAddress = orderBasketDTO.getDeliveryAddress();
+        this.description = orderBasketDTO.getDescription();
+        try {
+            this.submitDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(orderBasketDTO.getSubmitDate());
+            this.completeDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(orderBasketDTO.getCompleteDate());
+        } catch (java.text.ParseException e) {
+            e.getMessage();
+        }
     }
 }

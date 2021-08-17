@@ -1,6 +1,8 @@
 package bookShop.BookShop.controller;
 
 
+import bookShop.BookShop.DTO.BookDTO;
+import bookShop.BookShop.DTO.OrderBasketDTO;
 import bookShop.BookShop.model.OrderBasket;
 import bookShop.BookShop.service.Interfaces.OrderBasketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,56 +20,57 @@ import java.util.List;
 public class OrderBasketController {
 
     OrderBasketService orderBasketService;
-    
+
     @Autowired
     public OrderBasketController(OrderBasketService orderBasketService) {
         this.orderBasketService = orderBasketService;
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<OrderBasket> getOrderBasket(@PathVariable("id") Long id) {
-        if(id == null) {
+    public ResponseEntity<OrderBasketDTO> getOrderBasket(@PathVariable("id") Long id) {
+        if (id == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        OrderBasket orderBasket = orderBasketService.findById(id);
+        OrderBasketDTO OrderBasketDTO = new OrderBasketDTO(orderBasketService.findById(id));
 
-        if(orderBasket == null) {
+        if (OrderBasketDTO == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(orderBasket, HttpStatus.OK);
+        return new ResponseEntity<>(OrderBasketDTO, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<OrderBasket> saveOrderBasket(@RequestBody @Validated OrderBasket orderBasket) {
+    public ResponseEntity<OrderBasketDTO> saveOrderBasket(@RequestBody @Validated OrderBasketDTO orderBasketDTO) {
         HttpHeaders headers = new HttpHeaders();
 
-        if(orderBasket == null) {
+        if (orderBasketDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        orderBasketService.saveBasket(orderBasket);
-        return new ResponseEntity<>(orderBasket, headers, HttpStatus.CREATED);
+        orderBasketService.saveBasket(orderBasketDTO);
+
+        return new ResponseEntity<>(orderBasketDTO, headers, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<OrderBasket> updateCustomer(@RequestBody @Validated OrderBasket orderBasket, UriComponentsBuilder builder) {
+    public ResponseEntity<OrderBasketDTO> updateCustomer(@RequestBody @Validated OrderBasketDTO orderBasketDTO, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
 
-        if(orderBasket == null) {
+        if (orderBasketDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        orderBasketService.saveBasket(orderBasket);
-        return new ResponseEntity<>(orderBasket, headers, HttpStatus.OK);
+        orderBasketService.saveBasket(orderBasketDTO);
+        return new ResponseEntity<>(orderBasketDTO, headers, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "{id}")
-    public ResponseEntity<OrderBasket> deleteOrderBasket(@PathVariable("id") Long id) {
-        OrderBasket orderBasket = orderBasketService.findById(id);
+    public ResponseEntity<OrderBasketDTO> deleteOrderBasket(@PathVariable("id") Long id) {
+        OrderBasketDTO orderBasketDTO = new OrderBasketDTO(orderBasketService.findById(id));
 
-        if(orderBasket == null) {
+        if (orderBasketDTO == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -77,14 +80,16 @@ public class OrderBasketController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderBasket>> getAllOrderBaskets() {
-        List<OrderBasket> orderBaskets = orderBasketService.findAll();
+    public ResponseEntity<OrderBasketDTO[]> getAllOrderBaskets() {
+        OrderBasketDTO[] orderBasketDTOs = orderBasketService.findAll().stream().map(OrderBasketDTO::new).
+                toArray(OrderBasketDTO[]::new);
+        //List<Wrapper> converted = original.stream().map(Wrapper::new).collect(Collectors.toList());
 
-        if(orderBaskets.isEmpty()) {
+        if (orderBasketDTOs.length == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(orderBaskets, HttpStatus.OK);
+        return new ResponseEntity<>(orderBasketDTOs, HttpStatus.OK);
     }
 }
     

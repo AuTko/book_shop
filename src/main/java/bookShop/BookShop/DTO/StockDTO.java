@@ -12,15 +12,16 @@ public class StockDTO {
 
     private Long id;
     private String shop;  // shop name
-    private String book; // book name
+    private Long book; // book id
     private String status; // status description
     private Integer amount;
     private Float bookPrice;
     private String creationDate; //Date -> String
 
-    public StockDTO(){}
+    public StockDTO() {
+    }
 
-    public StockDTO(Long id, String shop, String book, String status, Integer amount,
+    public StockDTO(Long id, String shop, Long book, String status, Integer amount,
                     Float bookPrice, String creationDate) {
         this.id = id;
         this.shop = shop;
@@ -34,7 +35,7 @@ public class StockDTO {
     public StockDTO(Stock stock) {
         this.id = stock.getId();
         this.shop = stock.getShop().getShopName();
-        this.book = stock.getBook().getBookName();
+        this.book = stock.getBook().getId();
         this.status = stock.getStatus().getDescription();
         this.amount = stock.getAmount();
         this.bookPrice = stock.getBookPrice();

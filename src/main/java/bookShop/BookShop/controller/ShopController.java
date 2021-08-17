@@ -1,6 +1,7 @@
 package bookShop.BookShop.controller;
 
-import bookShop.BookShop.model.Shop;
+import bookShop.BookShop.DTO.ReviewDTO;
+import bookShop.BookShop.DTO.ShopDTO;
 import bookShop.BookShop.service.Interfaces.ShopService;
 import bookShop.BookShop.service.Interfaces.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,65 +25,84 @@ public class ShopController {
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<Shop> getShop(@PathVariable("id") Long id) {
-        if(id == null) {
+    public ResponseEntity<ShopDTO> getShop(@PathVariable("id") Long id) {
+        if (id == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Shop shop = shopService.findById(id);
+        ShopDTO shopDTO = new ShopDTO(shopService.findById(id));
 
-        if(shop == null) {
+        if (shopDTO == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(shop, HttpStatus.OK);
+        return new ResponseEntity<>(shopDTO, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Shop> saveShop(@RequestBody @Validated Shop shop) {
+    public ResponseEntity<ShopDTO> saveShop(@RequestBody @Validated ShopDTO shopDTO) {
         HttpHeaders headers = new HttpHeaders();
 
-        if(shop == null) {
+        if (shopDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        shopService.saveShop(shop);
-        return new ResponseEntity<>(shop, headers, HttpStatus.CREATED);
+        shopService.saveShop(shopDTO);
+
+        return new ResponseEntity<>(shopDTO, headers, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Shop> updateShop(@RequestBody @Validated Shop shop, UriComponentsBuilder builder) {
+    public ResponseEntity<ShopDTO> updateShop(@RequestBody @Validated ShopDTO shopDTO, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
 
-        if(shop == null) {
+        if (shopDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        shopService.saveShop(shop);
-        return new ResponseEntity<>(shop, headers, HttpStatus.OK);
+        shopService.saveShop(shopDTO);
+
+        return new ResponseEntity<>(shopDTO, headers, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "{id}")
-    public ResponseEntity<Shop> deleteShop(@PathVariable("id") Long id) {
-        Shop shop = shopService.findById(id);
+    public ResponseEntity<ShopDTO> deleteShop(@PathVariable("id") Long id) {
 
-        if(shop == null) {
+        ShopDTO shopDTO = new ShopDTO(shopService.findById(id));
+
+        if (shopDTO == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         shopService.deleteById(id);
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
 
     @GetMapping
-    public ResponseEntity<List<Shop>> getAllShops() {
-        List<Shop> persons = shopService.findAll();
+    public ResponseEntity<ShopDTO[]> getAllShops() {
 
-        if(persons.isEmpty()) {
+        ShopDTO[] shopDTOS = shopService.findAll().stream().map(ShopDTO::new).
+                toArray(ShopDTO[]::new);
+
+        if (shopDTOS.length == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(persons, HttpStatus.OK);
+        return new ResponseEntity<>(shopDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "owner/{email}")
+    public ResponseEntity<ShopDTO[]> getShopsByOwner(@PathVariable("email") String email) {
+
+        ShopDTO[] shopDTOS = shopService.findByOwner(email).stream().map(ShopDTO::new).
+                toArray(ShopDTO[]::new);
+
+        if (shopDTOS.length == 0) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(shopDTOS, HttpStatus.OK);
     }
 }

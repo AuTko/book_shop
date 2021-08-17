@@ -1,5 +1,6 @@
 package bookShop.BookShop.model;
 
+import bookShop.BookShop.DTO.ReviewDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -33,5 +34,11 @@ public class Review {
         this.shop = shop;
         this.comment = comment;
         this.rating = rating;
+    }
+
+    public Review(ReviewDTO reviewDTO) {
+        this.id = reviewDTO.getId();
+        this.comment = reviewDTO.getComment();
+        this.rating = reviewDTO.getRating();
     }
 }

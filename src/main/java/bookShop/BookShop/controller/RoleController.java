@@ -53,7 +53,7 @@ public class RoleController {
     }
 
     @PutMapping
-    public ResponseEntity<Role> updateCustomer(@RequestBody @Validated Role role, UriComponentsBuilder builder) {
+    public ResponseEntity<Role> updateRole(@RequestBody @Validated Role role, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
 
         if(role == null) {

@@ -17,7 +17,8 @@ public class BookDTO {
     private String publicationDate; //Date ->String
     private Integer pages;
 
-    public BookDTO() {}
+    public BookDTO() {
+    }
 
     public BookDTO(Long id, String bookName, String author, String genre, String publicationDate, Integer pages) {
         this.id = id;

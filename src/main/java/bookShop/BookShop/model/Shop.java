@@ -1,9 +1,12 @@
 package bookShop.BookShop.model;
 
+import bookShop.BookShop.DTO.ShopDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity
 @Data
@@ -26,7 +29,7 @@ public class Shop {
     private String description;
 
     @Column(name = "creation_date")
-    private String creationDate;
+    private Date creationDate;
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
@@ -39,8 +42,9 @@ public class Shop {
     public Shop() {
     }
 
-    public Shop(String shopName, String country, String city, String address, String description, String creationDate,
+    public Shop(String shopName, String country, String city, String address, String description, Date creationDate,
                 Status status, Person owner) {
+
         this.shopName = shopName;
         this.country = country;
         this.city = city;
@@ -49,5 +53,20 @@ public class Shop {
         this.creationDate = creationDate;
         this.status = status;
         this.owner = owner;
+    }
+
+    public Shop(ShopDTO shopDTO) {
+
+        this.id = shopDTO.getId();
+        this.shopName = shopDTO.getShopName();
+        this.country = shopDTO.getCountry();
+        this.city = shopDTO.getCity();
+        this.address = shopDTO.getAddress();
+        this.description = shopDTO.getDescription();
+        try {
+            this.creationDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(shopDTO.getCreationDate());
+        } catch (java.text.ParseException e) {
+            e.getMessage();
+        }
     }
 }

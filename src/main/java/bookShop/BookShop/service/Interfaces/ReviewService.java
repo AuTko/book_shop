@@ -1,5 +1,6 @@
 package bookShop.BookShop.service.Interfaces;
 
+import bookShop.BookShop.DTO.ReviewDTO;
 import bookShop.BookShop.model.Person;
 import bookShop.BookShop.model.Review;
 
@@ -7,11 +8,15 @@ import java.util.List;
 
 public interface ReviewService {
 
-     Review findById(Long id);
+    Review findById(Long id);
 
-     List<Review> findAll();
+    List<Review> findAll();
 
-     Review saveReview(Review review);
+    Review saveReview(ReviewDTO reviewDTO);
 
-     void deleteById(Long id);
+    List<Review> findByBuyer(Long id);
+
+    List<Review> findByShop(Long id);
+
+    void deleteById(Long id);
 }

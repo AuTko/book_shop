@@ -20,7 +20,8 @@ public class UserActivityDTO {
     private String date;
     private String description;
 
-    public UserActivityDTO() {}
+    public UserActivityDTO() {
+    }
 
     public UserActivityDTO(Long id, String user, String admin, String activity, String date, String description) {
         this.id = id;

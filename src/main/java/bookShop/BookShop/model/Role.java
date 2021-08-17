@@ -21,4 +21,5 @@ public class Role {
     public Role(String description) {
         this.description = description;
     }
+
 }

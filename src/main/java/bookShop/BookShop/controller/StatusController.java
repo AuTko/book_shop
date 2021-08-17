@@ -25,13 +25,13 @@ public class StatusController {
 
     @GetMapping(value = "{id}")
     public ResponseEntity<Status> getStatus(@PathVariable("id") Long id) {
-        if(id == null) {
+        if (id == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         Status status = statusService.findById(id);
 
-        if(status == null) {
+        if (status == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -42,11 +42,11 @@ public class StatusController {
     public ResponseEntity<Status> saveStatus(@RequestBody @Validated Status status) {
         HttpHeaders headers = new HttpHeaders();
 
-        if(status == null) {
+        if (status == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        statusService.saveStatuse(status);
+        statusService.saveStatus(status);
         return new ResponseEntity<>(status, headers, HttpStatus.CREATED);
     }
 
@@ -54,11 +54,11 @@ public class StatusController {
     public ResponseEntity<Status> updateStatus(@RequestBody @Validated Status status, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
 
-        if(status == null) {
+        if (status == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        statusService.saveStatuse(status);
+        statusService.saveStatus(status);
         return new ResponseEntity<>(status, headers, HttpStatus.OK);
     }
 
@@ -66,7 +66,7 @@ public class StatusController {
     public ResponseEntity<Status> deletePerson(@PathVariable("id") Long id) {
         Status status = statusService.findById(id);
 
-        if(status == null) {
+        if (status == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -79,7 +79,7 @@ public class StatusController {
     public ResponseEntity<List<Status>> getAllStatuses() {
         List<Status> status = statusService.findAll();
 
-        if(status.isEmpty()) {
+        if (status.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

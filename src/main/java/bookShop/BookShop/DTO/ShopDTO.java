@@ -5,6 +5,7 @@ import bookShop.BookShop.model.Shop;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import java.text.SimpleDateFormat;
 
 @Data
 public class ShopDTO {
@@ -19,7 +20,9 @@ public class ShopDTO {
     private String status; // shop status
     private String owner; // owner username(email)
 
-    public ShopDTO(){};
+    public ShopDTO() {
+    }
+
 
     public ShopDTO(Long id, String shopName, String country, String city, String address, String description,
                    String creationDate, String status, String owner) {
@@ -41,7 +44,7 @@ public class ShopDTO {
         this.city = shop.getCity();
         this.address = shop.getAddress();
         this.description = shop.getDescription();
-        this.creationDate = shop.getCreationDate();
+        this.creationDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(shop.getCreationDate());
         this.status = shop.getStatus().getDescription();
         this.owner = shop.getOwner().getEmail();
     }

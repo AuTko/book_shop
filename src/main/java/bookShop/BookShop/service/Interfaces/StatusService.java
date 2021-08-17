@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface StatusService {
 
-     Status findById(Long id);
+    Status findById(Long id);
 
-     List<Status> findAll();
+    List<Status> findAll();
 
-     Status saveStatuse(Status status);
+    Status saveStatus(Status status);
 
-     void deleteById(Long id);
+    void deleteById(Long id);
 }

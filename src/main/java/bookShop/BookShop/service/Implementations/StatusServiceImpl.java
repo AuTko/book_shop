@@ -29,7 +29,7 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public Status saveStatuse(Status status) {
+    public Status saveStatus(Status status) {
         return statusRepository.save(status);
     }
 

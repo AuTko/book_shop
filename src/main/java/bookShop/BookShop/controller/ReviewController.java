@@ -1,5 +1,7 @@
 package bookShop.BookShop.controller;
 
+import bookShop.BookShop.DTO.PersonDTO;
+import bookShop.BookShop.DTO.ReviewDTO;
 import bookShop.BookShop.model.Review;
 import bookShop.BookShop.service.Interfaces.ReviewService;
 import bookShop.BookShop.service.Interfaces.ReviewService;
@@ -25,49 +27,49 @@ public class ReviewController {
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<Review> getReview(@PathVariable("id") Long id) {
-        if(id == null) {
+    public ResponseEntity<ReviewDTO> getReview(@PathVariable("id") Long id) {
+        if (id == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Review review = reviewService.findById(id);
+        ReviewDTO reviewDTO = new ReviewDTO(reviewService.findById(id));
 
-        if(review == null) {
+        if (reviewDTO == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(review, HttpStatus.OK);
+        return new ResponseEntity<>(reviewDTO, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Review> saveReview(@RequestBody @Validated Review review) {
+    public ResponseEntity<ReviewDTO> saveReview(@RequestBody @Validated ReviewDTO reviewDTO) {
         HttpHeaders headers = new HttpHeaders();
 
-        if(review == null) {
+        if (reviewDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        reviewService.saveReview(review);
-        return new ResponseEntity<>(review, headers, HttpStatus.CREATED);
+        reviewService.saveReview(reviewDTO);
+        return new ResponseEntity<>(reviewDTO, headers, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Review> updateCustomer(@RequestBody @Validated Review review, UriComponentsBuilder builder) {
+    public ResponseEntity<ReviewDTO> updateReview(@RequestBody @Validated ReviewDTO reviewDTO, UriComponentsBuilder builder) {
         HttpHeaders headers = new HttpHeaders();
 
-        if(review == null) {
+        if (reviewDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        reviewService.saveReview(review);
-        return new ResponseEntity<>(review, headers, HttpStatus.OK);
+        reviewService.saveReview(reviewDTO);
+        return new ResponseEntity<>(reviewDTO, headers, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "{id}")
-    public ResponseEntity<Review> deleteReview(@PathVariable("id") Long id) {
-        Review review = reviewService.findById(id);
+    public ResponseEntity<ReviewDTO> deleteReview(@PathVariable("id") Long id) {
+        ReviewDTO reviewDTO = new ReviewDTO(reviewService.findById(id));
 
-        if(review == null) {
+        if (reviewDTO == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -77,13 +79,38 @@ public class ReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Review>> getAllReviews() {
-        List<Review> reviews = reviewService.findAll();
+    public ResponseEntity<ReviewDTO[]> getAllReviews() {
+        ReviewDTO[] reviewDTOS = reviewService.findAll().stream().map(ReviewDTO::new).
+                toArray(ReviewDTO[]::new);
 
-        if(reviews.isEmpty()) {
+        if (reviewDTOS.length == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(reviews, HttpStatus.OK);
+        return new ResponseEntity<>(reviewDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/buyer/{id}")
+    public ResponseEntity<ReviewDTO[]> getReviewsByBuyer(@PathVariable("id") Long id) {
+        ReviewDTO[] reviewDTOS = reviewService.findByBuyer(id).stream().map(ReviewDTO::new).
+                toArray(ReviewDTO[]::new);
+
+        if (reviewDTOS.length == 0) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(reviewDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/shop/{id}")
+    public ResponseEntity<ReviewDTO[]> getReviewsByShop(@PathVariable("id") Long id) {
+        ReviewDTO[] reviewDTOS = reviewService.findByShop(id).stream().map(ReviewDTO::new).
+                toArray(ReviewDTO[]::new);
+
+        if (reviewDTOS.length == 0) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(reviewDTOS, HttpStatus.OK);
     }
 }

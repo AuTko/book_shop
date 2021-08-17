@@ -1,5 +1,6 @@
 package bookShop.BookShop.service.Implementations;
 
+import bookShop.BookShop.DTO.BookDTO;
 import bookShop.BookShop.exception.NotFoundDataForIdException;
 import bookShop.BookShop.model.Book;
 import bookShop.BookShop.repository.BookRepository;
@@ -31,12 +32,40 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book saveBook(Book book) {
-        return bookRepository.save(book);
+    public Book saveBook(BookDTO bookDTO) {
+        return bookRepository.save(new Book(bookDTO));
     }
 
     @Override
     public void deleteById(Long id) throws Throwable {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Book> findBooksByParameters(String bookName, String author, String genre) {
+        if (!bookName.equals("null") && author.equals("null") && genre.equals("null")) {
+            return bookRepository.findByBookName(bookName);
+        }
+        if (bookName.equals("null") && !author.equals("null") && genre.equals("null")) {
+            return bookRepository.findByAuthor(author);
+        }
+        if (bookName.equals("null") && author.equals("null") && !genre.equals("null")) {
+            return bookRepository.findByGenre(genre);
+        }
+        if (!bookName.equals("null") && !author.equals("null") && genre.equals("null")) {
+            return bookRepository.findByBookNameAndAuthor(bookName, author);
+        }
+        if (!bookName.equals("null") && author.equals("null") && !genre.equals("null")) {
+            return bookRepository.findByBookNameAndGenre(bookName, genre);
+        }
+        if (bookName.equals("null") && !author.equals("null") && !genre.equals("null")) {
+            return bookRepository.findByAuthorAndGenre(author, genre);
+        }
+        if (!bookName.equals("null") && !author.equals("null") && !genre.equals("null")) {
+            return bookRepository.findByAuthorAndGenre(author, genre);
+        }
+
+        return bookRepository.findByBookNameAndAuthorAndGenre(bookName, author, genre);
+
     }
 }

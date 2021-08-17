@@ -1,6 +1,9 @@
 package bookShop.BookShop.service.Implementations;
 
+import bookShop.BookShop.DTO.UserActivityDTO;
 import bookShop.BookShop.model.UserActivity;
+import bookShop.BookShop.repository.PersonRepository;
+import bookShop.BookShop.repository.StatusRepository;
 import bookShop.BookShop.repository.UserActivityRepository;
 import bookShop.BookShop.service.Interfaces.UserActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +15,15 @@ import java.util.List;
 public class UserActivityServiceImpl implements UserActivityService {
 
     private final UserActivityRepository userActivityRepository;
+    private final PersonRepository personRepository;
+    private final StatusRepository statusRepository;
 
     @Autowired
-    public UserActivityServiceImpl(UserActivityRepository userActivityRepository) {
+    public UserActivityServiceImpl(UserActivityRepository userActivityRepository, PersonRepository personRepository,
+                                   StatusRepository statusRepository) {
         this.userActivityRepository = userActivityRepository;
+        this.personRepository = personRepository;
+        this.statusRepository = statusRepository;
     }
 
     //Basically getOne is a lazy load operation. Thus you get only a reference (a proxy) to the entity.
@@ -31,17 +39,24 @@ public class UserActivityServiceImpl implements UserActivityService {
     }
 
     @Override
-    public List<UserActivity> getAllByUserId(Long id) {
-        return userActivityRepository.getAllByUserId(id);
+    public List<UserActivity> getAllByUser(String email) {
+        return userActivityRepository.findByUser(personRepository.findByEmail(email).getId());
     }
 
     @Override
-    public List<UserActivity> getAllByAdminId(Long id) {
-        return userActivityRepository.getAllByAdminId(id);
+    public List<UserActivity> getAllByAdmin(String email) {
+        return userActivityRepository.findByAdmin(personRepository.findByEmail(email).getId());
     }
 
     @Override
-    public UserActivity addActivity(UserActivity userActivity) {
+    public UserActivity addActivity(UserActivityDTO userActivityDTO) {
+
+        UserActivity userActivity = new UserActivity(userActivityDTO);
+        userActivity.setUser(personRepository.findByEmail(userActivityDTO.getUser()));
+        userActivity.setAdmin(personRepository.findByEmail(userActivityDTO.getAdmin()));
+        // group 4 - user activity statuses
+        userActivity.setActivity(statusRepository.findByGroupAndDescription(4L, userActivityDTO.getActivity()));
+
         return userActivityRepository.save(userActivity);
     }
 

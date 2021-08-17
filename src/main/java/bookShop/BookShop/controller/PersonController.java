@@ -1,5 +1,7 @@
 package bookShop.BookShop.controller;
 
+import bookShop.BookShop.DTO.BookDTO;
+import bookShop.BookShop.DTO.PersonDTO;
 import bookShop.BookShop.model.Person;
 import bookShop.BookShop.service.Interfaces.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,14 +54,14 @@ public class PersonController {
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<Person> getPerson(@PathVariable("id") Long id) {
-        if(id == null) {
+    public ResponseEntity<PersonDTO> getPerson(@PathVariable("id") Long id) {
+        if (id == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Person person = personService.findById(id);
+        PersonDTO person = new PersonDTO(personService.findById(id));
 
-        if(person == null) {
+        if (person == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -67,50 +69,53 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<Person> savePerson(@RequestBody @Validated Person person) {
-         HttpHeaders headers = new HttpHeaders();
-
-         if(person == null) {
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-         }
-
-        personService.savePerson(person);
-         return new ResponseEntity<>(person, headers, HttpStatus.CREATED);
-     }
-
-     @PutMapping
-     public ResponseEntity<Person> updateCustomer(@RequestBody @Validated Person person, UriComponentsBuilder builder) {
+    public ResponseEntity<PersonDTO> savePerson(@RequestBody @Validated PersonDTO personDTO) {
         HttpHeaders headers = new HttpHeaders();
 
-         if(person == null) {
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-         }
+        if (personDTO == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-         personService.savePerson(person);
-         return new ResponseEntity<>(person, headers, HttpStatus.OK);
-     }
+        personService.savePerson(personDTO);
+        return new ResponseEntity<>(personDTO, headers, HttpStatus.CREATED);
+    }
 
-     @DeleteMapping(value = "{id}")
-     public ResponseEntity<Person> deletePerson(@PathVariable("id") Long id) {
-        Person person = personService.findById(id);
+    @PutMapping
+    public ResponseEntity<PersonDTO> updatePerson(@RequestBody @Validated PersonDTO personDTO,
+                                                  UriComponentsBuilder builder) {
 
-         if(person == null) {
-             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-         }
+        HttpHeaders headers = new HttpHeaders();
 
-         personService.deleteById(id);
-         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (personDTO == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-     }
+        personService.savePerson(personDTO);
+        return new ResponseEntity<>(personDTO, headers, HttpStatus.OK);
+    }
 
-     @GetMapping
-     public ResponseEntity<List<Person>> getAllPersons() {
-        List<Person> persons = personService.findAll();
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<PersonDTO> deletePerson(@PathVariable("id") Long id) {
+        PersonDTO personDTO = new PersonDTO(personService.findById(id));
 
-        if(persons.isEmpty()) {
+        if (personDTO == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-         return new ResponseEntity<>(persons, HttpStatus.OK);
-     }
+        personService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+    }
+
+    @GetMapping
+    public ResponseEntity<PersonDTO[]> getAllPersons() {
+        PersonDTO[] persons = personService.findAll().stream().map(PersonDTO::new).
+                toArray(PersonDTO[]::new);
+
+        if (persons.length == 0) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(persons, HttpStatus.OK);
+    }
 }

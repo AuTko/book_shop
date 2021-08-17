@@ -1,10 +1,12 @@
 package bookShop.BookShop.model;
 
+import bookShop.BookShop.DTO.StockDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -46,5 +48,17 @@ public class Stock {
         this.amount = amount;
         this.bookPrice = bookPrice;
         this.creationDate = creationDate;
+    }
+
+    public Stock(StockDTO stockDTO) {
+
+        this.id = stockDTO.getId();
+        this.amount = stockDTO.getAmount();
+        this.bookPrice = stockDTO.getBookPrice();
+        try {
+            this.creationDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(stockDTO.getCreationDate());
+        } catch (java.text.ParseException e) {
+            e.getMessage();
+        }
     }
 }

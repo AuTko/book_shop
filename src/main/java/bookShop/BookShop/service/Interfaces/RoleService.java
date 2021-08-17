@@ -6,11 +6,14 @@ import java.util.List;
 
 public interface RoleService {
 
-     Role findById(Long id);
+    Role findById(Long id);
 
-     List<Role> findAll();
+    List<Role> findAll();
 
-     Role addRole(Role role);
+    Role addRole(Role role);
 
-     void deleteById(Long id);
+    void deleteById(Long id);
+
+    Role findByDescription(String description);
+
 }
